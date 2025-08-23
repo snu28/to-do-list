@@ -4,6 +4,8 @@ const inProgressList = document.getElementById("current-tasks");
 const completedTasks = document.getElementById("inactive-tasks");
 const remainingNum = document.getElementById("remaining");
 const completedNum = document.getElementById("completed");
+const clearInProgress = document.getElementById("clear-current");
+const clearCompleted = document.getElementById("clear-completed");
 
 
 
@@ -13,7 +15,7 @@ addBtn.addEventListener("click", createTask);
 function createTask() {
     const task = inputTask.value.trim();
 
-    if (task ===" "){
+    if (task === ""){
         alert("Please enter a task");
         return;
     }
@@ -32,10 +34,9 @@ function createTask() {
 
 }
 
-
 inProgressList.addEventListener("click", completeTask);
 
-function completeTask(){
+function completeTask(event){
     const completedTask = event.target;
     completedTask.classList.remove("active");
     completedTask.classList.add("inactive");
@@ -46,3 +47,25 @@ function completeTask(){
     
 }
 
+
+
+function clear(type){
+    if (type === "inProgressList"){
+        inProgressList.innerHTML = "";
+        remainingNum.textContent = "0";
+    
+    } else if (type ==="completedTasks"){
+        completedTasks.innerHTML = "";
+        completedNum.textContent = "0";
+
+    
+    }
+}
+
+clearInProgress.addEventListener("click", function(){
+    clear("inProgressList")}
+);
+
+clearCompleted.addEventListener("click",function(){
+    clear("completedTasks")}
+);
