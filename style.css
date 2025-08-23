@@ -74,8 +74,6 @@ body{
     margin:1rem;
     padding: 1rem;
 
-
-
 }
 
 .task{
@@ -93,7 +91,27 @@ body{
     border-radius: 0.5rem;
     margin:1rem;
     padding: 1rem;
+    color: rgb(0, 255, 68);
+    margin-bottom: 2rem ;
     
-
-
 }
+
+#completed-tasks h2{
+    color: white ;
+    padding-bottom: 1rem;
+}
+
+
+#add-btn:hover{
+    background-color: #03045e;
+    color: white;
+    transition: all 5ms ease;
+}
+
+
+.task.active:hover{
+    text-decoration: line-through;
+    color: red;
+   
+}
+
