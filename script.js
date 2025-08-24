@@ -7,7 +7,29 @@ const completedNum = document.getElementById("completed");
 const clearInProgress = document.getElementById("clear-current");
 const clearCompleted = document.getElementById("clear-completed");
 
+let tasks = [];
 
+if (localStorage.getItem("tasks")){
+
+    tasks = JSON.parse(localStorage.getItem("tasks"));
+    tasks.forEach(task => {
+        const li = document.createElement("li");
+        li.classList.add("task", task.status);
+        li.textContent = task.text;
+        if (task.status === "active"){
+            inProgressList.appendChild(li);
+        } else{
+            completedTasks.appendChild(li);
+        }
+        
+    });
+
+    remainingNum.textContent = inProgressList.children.length;
+    completedNum.textContent = completedTasks.children.length;
+        
+    
+
+}
 
 
 addBtn.addEventListener("click", createTask);
@@ -29,6 +51,9 @@ function createTask() {
 
     inputTask.value = "";
 
+    tasks.push({text:task, status:"active"});
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
     
     
 
@@ -42,6 +67,12 @@ function completeTask(event){
     completedTask.classList.add("inactive");
     completedTasks.appendChild(completedTask);
 
+    const index = tasks.findIndex(t => t.text === completedTask.textContent && t.status === "active");
+    if (index !== -1) {
+        tasks[index].status = "inactive";
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
     remainingNum.textContent = inProgressList.children.length;
     completedNum.textContent = completedTasks.children.length;
     
@@ -51,10 +82,14 @@ function completeTask(event){
 
 function clear(type){
     if (type === "inProgressList"){
+        tasks = tasks.filter(t => t.status !== "active");
+        localStorage.setItem("tasks", JSON.stringify(tasks));
         inProgressList.innerHTML = "";
         remainingNum.textContent = "0";
     
     } else if (type ==="completedTasks"){
+        tasks = tasks.filter(t => t.status !== "inactive");
+        localStorage.setItem("tasks", JSON.stringify(tasks));
         completedTasks.innerHTML = "";
         completedNum.textContent = "0";
 
